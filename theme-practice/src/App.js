@@ -1,33 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ThemeProvider} from 'styled-components';
+import {useDarkMode} from './components/useDarkMode';
 import {lightTheme, darkTheme} from './components/theme';
 import {GlobalStyles} from './components/global';
+import Toggle from './components/toggle';
 
 function App() {
-  // use a hook to create a local state which will keep track of the current theme and add a function to switch between themes on click
-  const [theme, setTheme] = useState('light');
-
-  const toggleTheme = () => {
-    // switch between light and dark themes
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  }
+  const [theme, toggleTheme] = useDarkMode();
+  const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
   return (
-    <ThemeProvider theme={theme === 'light' ? lightTheme: darkTheme}>
-      <>
+    <ThemeProvider theme={themeMode}>
+      <div>
         <GlobalStyles />
-          {/* pass toggle functionality to button */}
-        <button onClick={toggleTheme}>Toggle Theme</button>
-        <h1>Theme practice!</h1>
+        <Toggle theme={theme} toggleTheme={toggleTheme} />
+        <h1>It's a {theme === 'light' ? 'light theme' : 'dark theme'}!</h1>
         <footer>
+          <span>Credits:</span>
+          <small><b>Sun</b> icon made by <a href="https://www.flaticon.com/authors/smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></small>
+          <small><b>Moon</b> icon made by <a href="https://www.freepik.com/home">Freepik</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></small>
         </footer>
-      </>
+      </div>
     </ThemeProvider>
   );
-}
+};
+
 
 export default App;
